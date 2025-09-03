@@ -1,0 +1,51 @@
+// server.js
+const express = require('express');
+const mongoose = require('mongoose');
+const User = require('./models/User'); // Import User model
+const userRoutes = require('./routes/userRoutes');
+
+require('dotenv').config();
+
+const app = express();
+app.use(express.json());
+
+// MongoDB Connection
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(err => console.log('Failed to connect to MongoDB', err));
+
+// Route to create a new user
+// app.post('/api/users', async (req, res) => {
+//     const { name, email, age } = req.body;
+
+//     try {
+//         const user = new User({ name, email, age });
+//         await user.save();
+//         res.status(201).json(user);
+//     } catch (error) {
+//         res.status(400).json({ message: 'Error creating user', error });
+//     }
+// });
+
+// Route to get all users
+// app.get('/api/users', async (req, res) => {
+//     try {
+//         const users = await User.find();
+//         res.status(200).json(users);
+//     } catch (error) {
+//         res.status(400).json({ message: 'Error fetching users', error });
+//     }
+// });
+
+app.use('/api/users', userRoutes);
+
+// Basic route to test server
+app.get('/', (req, res) => {
+    res.send('Hello, MongoDB with Node.js!');
+});
+
+// Start the server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
