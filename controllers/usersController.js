@@ -3,10 +3,10 @@ const User = require('../models/User');
 
 // CREATE: Add a new user
 const createUser = async (req, res) => {
-    const { name, email, phone } = req.body;
+    const { name, email, phone, password } = req.body;
 
     try {
-        const user = new User({ name, email, phone });
+        const user = new User({ name, email, phone, password, createdAt: new Date(), updatedAt: new Date() });
         await user.save();
         res.status(201).json(user); // Return the created user
     } catch (error) {
@@ -42,10 +42,10 @@ const getUserById = async (req, res) => {
 // UPDATE: Update a user by ID
 const updateUserById = async (req, res) => {
     const { id } = req.params;
-    const { name, email, phone } = req.body;
+    const { name, email, phone, password } = req.body;
 
     try {
-        const user = await User.findByIdAndUpdate(id, { name, email, phone }, { new: true });
+        const user = await User.findByIdAndUpdate(id, { name, email, phone, password, updatedAt: new Date() }, { new: true });
         if (!user) {
             return res.status(404).json({ messphone: 'User not found' });
         }

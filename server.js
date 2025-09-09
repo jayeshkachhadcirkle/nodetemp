@@ -2,7 +2,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const User = require('./models/User'); // Import User model
+const CompanyMaster = require('./models/CompanyMaster'); // Import CompanyMasters model
 const userRoutes = require('./routes/userRoutes');
+const companyMasters = require('./routes/companyMasters');
 
 require('dotenv').config();
 
@@ -38,11 +40,16 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 // });
 
 app.use('/api/users', userRoutes);
+app.use('/api/company', companyMasters);
 
 // Basic route to test server
 app.get('/', (req, res) => {
     res.send('Hello, MongoDB with Node.js!');
 });
+
+app.get('/api', (req, res) => {
+    res.send('API is running...');
+})
 
 // Start the server
 const PORT = process.env.PORT || 5000;
