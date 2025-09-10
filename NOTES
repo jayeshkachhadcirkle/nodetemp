@@ -8,7 +8,7 @@ mongodb://localhost:27017/
 - products = pro_catid, sno, name, base_price, base_price2, desc, info
 - variants = product_id, sno, name, var_price, var_price2, desc, info
 
-- orders = compid, ordno, name, ref_no, status, qty, value, phone, address, delivere, remark, info
-- ordersinfos = ordno, sno,  name, var_id, qty, price, value, info
+- orders = comp_id, ord_no, name, ref_no, status, qty, value, phone, address, delivere, remark, info
+- ordersinfos = ord_no, sno,  name, var_id, qty, price, value, info
 
-- customers = compid, name, phone, email, total_ord_value
+- customers = comp_id, name, phone, email, total_ord_value

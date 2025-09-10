@@ -10,6 +10,8 @@ const branchRoutes = require('./routes/branchRoutes');
 const proCatRoutes = require('./routes/proCatRoutes');
 const productRoutes = require('./routes/productRoutes');
 const variantRoutes = require('./routes/variantRoutes');
+const orderRoutes = require('./routes/orderRoutes');
+const orderInfoRoutes = require('./routes/orderInfoRoutes');
 
 require('dotenv').config();
 
@@ -29,6 +31,8 @@ app.use('/api/branch', branchRoutes);
 app.use('/api/procat', proCatRoutes);
 app.use('/api/product', productRoutes);
 app.use('/api/variant', variantRoutes);
+app.use('/api/order', orderRoutes);
+app.use('/api/orderinfo', orderInfoRoutes);
 
 // Basic route to test server
 app.get('/', (req, res) => {
