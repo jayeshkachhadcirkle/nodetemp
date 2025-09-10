@@ -40,7 +40,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api', (req, res) => {
-    res.send('API is running...');
+    res.send({ "message": "Api Running..." });
 })
 
 // Start the server

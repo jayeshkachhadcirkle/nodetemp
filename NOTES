@@ -12,3 +12,8 @@ mongodb://localhost:27017/
 - ordersinfos = ord_no, sno,  name, var_id, qty, price, value, info
 
 - customers = comp_id, name, phone, email, total_ord_value
+
+
+fetch('http://127.0.0.1:5000/api/company').then(res => res.json()).then(data => {
+    console.log(data)
+})
