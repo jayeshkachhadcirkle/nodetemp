@@ -1,1 +1,5 @@
 mongodb://localhost:27017/
+
+
+- CompanyConfigs = compid, mode, view, ref, isdelivery, info
+- Branches = compid, sno, name, address, pincode, phone, info

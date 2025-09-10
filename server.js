@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const User = require('./models/User'); // Import User model
 const CompanyMaster = require('./models/CompanyMaster'); // Import CompanyMasters model
 const userRoutes = require('./routes/userRoutes');
+const configsRoutes = require('./routes/configsRoutes');
 const companyMasters = require('./routes/companyMasters');
 
 require('dotenv').config();
@@ -41,6 +42,7 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 
 app.use('/api/users', userRoutes);
 app.use('/api/company', companyMasters);
+app.use('/api/configs', configsRoutes);
 
 // Basic route to test server
 app.get('/', (req, res) => {
