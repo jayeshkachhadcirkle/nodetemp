@@ -1,5 +1,8 @@
 // controllers/usersController.js
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+dotenv.config();
 
 // CREATE: Add a new user
 const createUser = async (req, res) => {
@@ -10,7 +13,42 @@ const createUser = async (req, res) => {
         await user.save();
         res.status(201).json(user); // Return the created user
     } catch (error) {
-        res.status(400).json({ messphone: 'Error creating user', error });
+        res.status(400).json({ message: 'Error creating user', error });
+    }
+};
+
+// LOGIN: Authenticate user and generate JWT
+const loginUser = async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        const isMatch = await user.comparePassword(password);
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Invalid credentials' });
+        }
+
+        // Generate JWT token
+        const token = jwt.sign(
+            { id: user._id, email: user.email },
+            process.env.JWT_SECRET,
+            { expiresIn: process.env.JWT_EXPIRATION }
+        );
+
+        const userData = {
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            phone: user.phone
+        }
+
+        res.status(200).json({ message: 'Login successful', token, user: userData });
+    } catch (error) {
+        res.status(400).json({ message: 'Error logging in user', error });
     }
 };
 
@@ -20,7 +58,7 @@ const getAllUsers = async (req, res) => {
         const users = await User.find();
         res.status(200).json(users); // Return all users
     } catch (error) {
-        res.status(400).json({ messphone: 'Error fetching users', error });
+        res.status(400).json({ message: 'Error fetching users', error });
     }
 };
 
@@ -31,11 +69,11 @@ const getUserById = async (req, res) => {
     try {
         const user = await User.findById(id);
         if (!user) {
-            return res.status(404).json({ messphone: 'User not found' });
+            return res.status(404).json({ message: 'User not found' });
         }
         res.status(200).json(user); // Return the user by ID
     } catch (error) {
-        res.status(400).json({ messphone: 'Error fetching user', error });
+        res.status(400).json({ message: 'Error fetching user', error });
     }
 };
 
@@ -47,11 +85,11 @@ const updateUserById = async (req, res) => {
     try {
         const user = await User.findByIdAndUpdate(id, { name, email, phone, password, updatedAt: new Date() }, { new: true });
         if (!user) {
-            return res.status(404).json({ messphone: 'User not found' });
+            return res.status(404).json({ message: 'User not found' });
         }
         res.status(200).json(user); // Return the updated user
     } catch (error) {
-        res.status(400).json({ messphone: 'Error updating user', error });
+        res.status(400).json({ message: 'Error updating user', error });
     }
 };
 
@@ -62,18 +100,37 @@ const deleteUserById = async (req, res) => {
     try {
         const user = await User.findByIdAndDelete(id);
         if (!user) {
-            return res.status(404).json({ messphone: 'User not found' });
+            return res.status(404).json({ message: 'User not found' });
         }
-        res.status(200).json({ messphone: 'User deleted successfully' });
+        res.status(200).json({ message: 'User deleted successfully' });
     } catch (error) {
-        res.status(400).json({ messphone: 'Error deleting user', error });
+        res.status(400).json({ message: 'Error deleting user', error });
+    }
+};
+
+// Middleware to verify JWT
+const verifyToken = (req, res, next) => {
+    const token = req.header('Authorization')?.split(' ')[1];
+
+    if (!token) {
+        return res.status(401).json({ message: 'Access denied, token required' });
+    }
+
+    try {
+        const verified = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = verified;
+        next();
+    } catch (error) {
+        res.status(400).json({ message: 'Invalid or expired token' });
     }
 };
 
 module.exports = {
     createUser,
+    loginUser,
     getAllUsers,
     getUserById,
     updateUserById,
     deleteUserById,
+    verifyToken,
 };

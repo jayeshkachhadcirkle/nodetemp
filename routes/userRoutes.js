@@ -1,19 +1,16 @@
-// routes/userRoutes.js
+// routes/users.js
 const express = require('express');
 const router = express.Router();
-const {
-    createUser,
-    getAllUsers,
-    getUserById,
-    updateUserById,
-    deleteUserById,
-} = require('../controllers/usersController');
+const { createUser, loginUser, getAllUsers, getUserById, updateUserById, deleteUserById, verifyToken } = require('../controllers/usersController');
 
-// CRUD Routes
-router.post('/', createUser); // Create a user
-router.get('/', getAllUsers); // Get all users
-router.get('/:id', getUserById); // Get a user by ID
-router.put('/:id', updateUserById); // Update a user by ID
-router.delete('/:id', deleteUserById); // Delete a user by ID
+// Public routes
+router.post('/register', createUser);  // Register new user
+router.post('/login', loginUser);      // Login user
+
+// Protected routes (Require JWT verification)
+// router.get('/', verifyToken, getAllUsers);  // Get all users
+router.get('/:id', verifyToken, getUserById); // Get user by ID
+router.put('/:id', verifyToken, updateUserById); // Update user
+router.delete('/:id', verifyToken, deleteUserById); // Delete user
 
 module.exports = router;

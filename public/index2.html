@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API Frontend</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .api-response {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <h1>API Testing</h1> -->
+
+    <div>
+        <button id="getDataBtn">Get Data</button>
+        <button id="postDataBtn">Post Data</button>
+    </div>
+
+    <div class="api-response" id="responseContainer">
+        <h3>API Response</h3>
+        <pre id="responseText">No response yet</pre>
+    </div>
+
+    <script>
+        // API endpoints
+        const apiBaseUrl = '/'; // replace with your API URL
+
+        // Get Data from API (GET request)
+        document.getElementById('getDataBtn').addEventListener('click', async () => {
+            try {
+                const response = await fetch(`/api/hello`);
+                const data = await response.json();
+                document.getElementById('responseText').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('responseText').textContent = 'Error: ' + error.message;
+            }
+        });
+
+        // Post Data to API (POST request)
+        document.getElementById('postDataBtn').addEventListener('click', async () => {
+            const dataToSend = { key: 'value' }; // customize this based on your API's requirements
+            try {
+                const response = await fetch(`${apiBaseUrl}/your-post-endpoint`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dataToSend)
+                });
+
+                const data = await response.json();
+                document.getElementById('responseText').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                document.getElementById('responseText').textContent = 'Error: ' + error.message;
+            }
+        });
+    </script>
+</body>
+
+</html>

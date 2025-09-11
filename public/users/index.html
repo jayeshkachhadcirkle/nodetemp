@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User CRUD</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        input,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+        }
+
+        .user-list {
+            margin-top: 30px;
+        }
+
+        .user-item {
+            background-color: #f4f4f4;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>User CRUD Operations</h1>
+
+        <!-- Create User Form -->
+        <h3>Create User</h3>
+        <div class="form-group">
+            <input type="text" id="createName" placeholder="Name">
+            <input type="email" id="createEmail" placeholder="Email">
+            <input type="tel" id="createPhone" placeholder="Phone">
+            <input type="password" id="createPassword" placeholder="Password">
+            <button id="createUserBtn">Create User</button>
+        </div>
+
+        <!-- Display All Users -->
+        <h3>All Users</h3>
+        <button id="fetchUsersBtn">Fetch Users</button>
+        <div class="user-list" id="userList"></div>
+
+        <!-- Update User Form -->
+        <h3>Update User</h3>
+        <div class="form-group">
+            <input type="text" id="updateId" placeholder="User ID to update">
+            <input type="text" id="updateName" placeholder="New Name">
+            <input type="email" id="updateEmail" placeholder="New Email">
+            <input type="tel" id="updatePhone" placeholder="New Phone">
+            <input type="password" id="updatePassword" placeholder="New Password">
+            <button id="updateUserBtn">Update User</button>
+        </div>
+
+        <!-- Delete User Form -->
+        <h3>Delete User</h3>
+        <div class="form-group">
+            <input type="text" id="deleteId" placeholder="User ID to delete">
+            <button id="deleteUserBtn">Delete User</button>
+        </div>
+
+        <div id="responseMessage"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
