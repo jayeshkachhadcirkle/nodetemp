@@ -6,12 +6,7 @@ const User = require('../models/User');
 
 exports.getCompanyByUser = async (req, res) => {
     try {
-        // let user = req.id;
-        // console.log("hdfsuhfdsgfds", user)
         const userId = req.params.id;
-
-        console.log(userId);  // This will log the 'id' passed in the URL
-
         const companies = await CompanyModel.find({ 'user_id': userId }).populate('user_id', 'name email');
         res.json(companies);
     } catch (error) {

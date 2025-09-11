@@ -186,6 +186,19 @@
         const decodedUserId = decodeURIComponent(userId).slice(3, 27);
         console.log(decodedUserId);    // Access user ID
 
+        // fetch(`/api/company/byuser/${userId}`)
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         console.log(data);
+        //     })
+
+        fetch(`/api/company/byuser/${decodedUserId}`, {
+            method: 'GET',
+            credentials: 'include'  // Important: This ensures the browser sends cookies (including HttpOnly cookies)
+        })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
 
         // Display Create Company Form
         function showCreateForm() {

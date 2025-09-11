@@ -2,6 +2,22 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
+
+require('dotenv').config();
+
+const app = express();
+app.use(express.json());
+
+app.use(cookieParser());
+
+
+// MongoDB Connection
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(err => console.log('Failed to connect to MongoDB', err));
+
 const userRoutes = require('./routes/userRoutes');
 const configsRoutes = require('./routes/configsRoutes');
 const companyRoutes = require('./routes/companyRoutes');
@@ -12,15 +28,6 @@ const variantRoutes = require('./routes/variantRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const orderInfoRoutes = require('./routes/orderInfoRoutes');
 
-require('dotenv').config();
-
-const app = express();
-app.use(express.json());
-
-// MongoDB Connection
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('Connected to MongoDB'))
-    .catch(err => console.log('Failed to connect to MongoDB', err));
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/users', userRoutes);
@@ -33,20 +40,8 @@ app.use('/api/variant', variantRoutes);
 app.use('/api/order', orderRoutes);
 app.use('/api/orderinfo', orderInfoRoutes);
 
-// app.get('*', (req, res) => {
-//     res.sendFile(path.join(__dirname, 'public', 'index.html'));
-// });
 
-// app.get('/api/companybyuser/:id', (req, res) => {
-//     // Access the 'id' parameter from the route
-//     const userId = req.params.id;
 
-//     console.log(userId);  // This will log the 'id' passed in the URL
-
-//     // Respond with some data (example)
-//     res.json({ message: `Company data for user ${userId}` });
-// });
-// Basic route to test server
 app.get('/', (req, res) => {
     res.send('Hello, MongoDB with Node.js!');
 });
