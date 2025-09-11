@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const path = require('path');
 const userRoutes = require('./routes/userRoutes');
 const configsRoutes = require('./routes/configsRoutes');
-const companyMasters = require('./routes/companyMasters');
+const companyRoutes = require('./routes/companyRoutes');
 const branchRoutes = require('./routes/branchRoutes');
 const proCatRoutes = require('./routes/proCatRoutes');
 const productRoutes = require('./routes/productRoutes');
@@ -24,7 +24,7 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/users', userRoutes);
-app.use('/api/company', companyMasters);
+app.use('/api/company', companyRoutes);
 app.use('/api/configs', configsRoutes);
 app.use('/api/branch', branchRoutes);
 app.use('/api/procat', proCatRoutes);
@@ -37,7 +37,15 @@ app.use('/api/orderinfo', orderInfoRoutes);
 //     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 // });
 
+// app.get('/api/companybyuser/:id', (req, res) => {
+//     // Access the 'id' parameter from the route
+//     const userId = req.params.id;
 
+//     console.log(userId);  // This will log the 'id' passed in the URL
+
+//     // Respond with some data (example)
+//     res.json({ message: `Company data for user ${userId}` });
+// });
 // Basic route to test server
 app.get('/', (req, res) => {
     res.send('Hello, MongoDB with Node.js!');

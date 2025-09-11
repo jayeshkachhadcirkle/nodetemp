@@ -1,7 +1,7 @@
 // models/CompanyMasters.js
 const mongoose = require('mongoose');
 
-const companyMastersSchema = new mongoose.Schema({
+const companyModelSchema = new mongoose.Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Reference to User model
@@ -16,4 +16,4 @@ const companyMastersSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
-module.exports = mongoose.model('CompanyMaster', companyMastersSchema);
+module.exports = mongoose.model('CompanyModel', companyModelSchema);

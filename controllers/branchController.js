@@ -1,6 +1,6 @@
 // controllers/BranchModelController.jsuser
 const BranchModel = require('../models/BranchModel');
-const Company = require('../models/CompanyMaster');
+const Company = require('../models/CompanyModel');
 
 
 

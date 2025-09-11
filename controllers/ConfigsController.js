@@ -1,7 +1,7 @@
 // controllers/ConfigsController.js
 
 const Config = require('../models/ConfigModel');
-const CompanyMaster = require('../models/CompanyMaster');
+const CompanyMaster = require('../models/CompanyModel');
 
 // Create Config
 exports.createConfig = async (req, res) => {

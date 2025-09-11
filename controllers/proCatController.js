@@ -1,5 +1,5 @@
 const ProCatModel = require('../models/ProCatModel'); // Adjust path if needed
-const CompanyMasters = require('../models/CompanyMaster'); // Assuming this is your company model
+const CompanyMasters = require('../models/CompanyModel'); // Assuming this is your company model
 const BranchModel = require('../models/BranchModel'); // Assuming this is your branch model
 
 // Create a new Product Category

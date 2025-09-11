@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 500px;
+            padding: 20px;
+        }
+
+        .container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        select,
+        input[type="text"],
+        input[type="number"],
+        input[type="tel"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .company-option {
+            margin: 10px;
+            padding: 10px 5px;
+            border: 1px solid grey;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .company-option button {
+            background-color: #f44336;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .company-option button:hover {
+            background-color: #d32f2f;
+        }
+
+        .company-option .edit-btn {
+            background-color: #4CAF50;
+        }
+
+        .company-option .edit-btn:hover {
+            background-color: #45a049;
+        }
+
+        .form-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .actions-con {
+            display: flex;
+            gap: 10px;
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Company Management</h2>
+
+        <!-- Dropdown for Selecting Company -->
+        <!-- <div>
+            <label for="companySelect">Select Company:</label>
+            <select id="companySelect">
+                <option value="" disabled selected>Select a company</option>
+                <option value="company1">Company 1</option>
+                <option value="company2">Company 2</option>
+                <option value="company3">Company 3</option>
+            </select>
+        </div> -->
+
+        <!-- List of companies with Edit/Delete buttons -->
+        <div id="companyList">
+            <div class="company-option" data-company-id="company1">
+                <span>Company 1</span>
+                <div class="actions-con">
+                    <button class="edit-btn" onclick="editCompany('company1')">Edit</button>
+                    <button onclick="deleteCompany('company1')">Delete</button>
+                </div>
+            </div>
+            <!-- <div class="company-option" data-company-id="company2">
+                <span>Company 2</span>
+                <div class="actions-con">
+                    <button class="edit-btn" onclick="editCompany('company2')">Edit</button>
+                    <button onclick="deleteCompany('company2')">Delete</button>
+                </div>
+            </div>
+            <div class="company-option" data-company-id="company3">
+                <span>Company 3</span>
+                <div class="actions-con">
+                    <button class="edit-btn" onclick="editCompany('company3')">Edit</button>
+                    <button onclick="deleteCompany('company3')">Delete</button>
+                </div>
+            </div> -->
+        </div>
+
+        <!-- Create New Company Button -->
+        <button id="createCompanyBtn" onclick="showCreateForm()">Create New Company</button>
+
+        <!-- Create New Company Form -->
+        <div class="form-container" id="createCompanyForm">
+            <h3>Create New Company</h3>
+            <input type="text" id="companyName" placeholder="Company Name" required>
+            <input type="tel" id="companyPhone" placeholder="Phone" required>
+            <input type="number" id="companyPincode" placeholder="Pincode" required>
+            <textarea id="companyInfo" placeholder="Company Info" required></textarea>
+            <button onclick="createCompany()">Create</button>
+        </div>
+    </div>
+
+    <script>
+
+
+        // Example of reading the cookies in JavaScript
+        function getCookie(name) {
+            let cookieArr = document.cookie.split(";");
+
+            for (let i = 0; i < cookieArr.length; i++) {
+                let cookie = cookieArr[i].trim();
+                if (cookie.indexOf(name) === 0) {
+                    return cookie.substring(name.length + 1);
+                }
+            }
+
+            return null;
+        }
+
+        // Get JWT and user_id from cookies
+        const jwtToken = getCookie('jwt');
+        const userId = getCookie('user_id');
+
+        console.log(jwtToken);  // Access JWT token
+        console.log(userId);
+        const decodedUserId = decodeURIComponent(userId).slice(3, 27);
+        console.log(decodedUserId);    // Access user ID
+
+
+        // Display Create Company Form
+        function showCreateForm() {
+            document.getElementById("createCompanyForm").style.display = "block";
+            document.getElementById("createCompanyBtn").style.display = "none";
+        }
+
+        // Create New Company
+        function createCompany() {
+            const companyName = document.getElementById('companyName').value;
+            const companyPhone = document.getElementById('companyPhone').value;
+            const companyPincode = document.getElementById('companyPincode').value;
+            const companyInfo = document.getElementById('companyInfo').value;
+
+            if (companyName && companyPhone && companyPincode && companyInfo) {
+                const newCompany = {
+                    "user_id": "68c28f41465aaffa61ea34be",
+                    "name": companyName,
+                    "phone": companyPhone,
+                    "pincode": companyPincode,
+                    "info": companyInfo
+                };
+
+                alert(`New company "${companyName}" created successfully!`);
+                // Simulate adding company to dropdown list and company list
+                const companySelect = document.getElementById('companySelect');
+                const option = document.createElement('option');
+                option.value = companyName;
+                option.textContent = companyName;
+                companySelect.appendChild(option);
+
+                const companyList = document.getElementById('companyList');
+                const companyDiv = document.createElement('div');
+                companyDiv.classList.add('company-option');
+                companyDiv.setAttribute('data-company-id', companyName);
+                companyDiv.innerHTML = `
+          <span>${companyName}</span>
+          <div>
+            <button class="edit-btn" onclick="editCompany('${companyName}')">Edit</button>
+            <button onclick="deleteCompany('${companyName}')">Delete</button>
+          </div>
+        `;
+                companyList.appendChild(companyDiv);
+
+                // Clear the form and hide it
+                document.getElementById('createCompanyForm').style.display = 'none';
+                document.getElementById('createCompanyBtn').style.display = 'block';
+                document.getElementById('companyName').value = '';
+                document.getElementById('companyPhone').value = '';
+                document.getElementById('companyPincode').value = '';
+                document.getElementById('companyInfo').value = '';
+            } else {
+                alert("Please fill out all fields.");
+            }
+        }
+
+        // Edit Company Functionality (can be extended)
+        function editCompany(companyId) {
+            alert(`Editing company: ${companyId}`);
+            // Implement your edit logic here (e.g., open a form with current details)
+        }
+
+        // Delete Company Functionality
+        function deleteCompany(companyId) {
+            if (confirm(`Are you sure you want to delete ${companyId}?`)) {
+                const companyDiv = document.querySelector(`.company-option[data-company-id='${companyId}']`);
+                companyDiv.remove();
+                alert(`${companyId} has been deleted.`);
+            }
+        }
+    </script>
+
+</body>
+
+</html>

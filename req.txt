@@ -1,0 +1,9 @@
+company model
+
+{
+  "user_id":"68c28f41465aaffa61ea34be",
+  "name": "New 3 Comp",
+  "phone": "4555455445",
+  "pincode":"958654",
+  "info":"i"
+}

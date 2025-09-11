@@ -1,0 +1,14 @@
+company res on create
+
+{
+  "user_id": "68c28f41465aaffa61ea34be",
+  "sno": 2,
+  "name": "New 3 Comp",
+  "phone": "4555455445",
+  "pincode": "958654",
+  "info": "i",
+  "_id": "68c2902379bb1d2648bb6a5b",
+  "createdAt": "2025-09-11T09:02:27.312Z",
+  "updatedAt": "2025-09-11T09:02:27.312Z",
+  "__v": 0
+}

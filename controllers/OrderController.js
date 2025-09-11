@@ -1,5 +1,5 @@
 const OrderModel = require('../models/OrderModel');
-const CompanyMaster = require('../models/CompanyMaster'); // Assuming this is your CompanyMaster model
+const CompanyMaster = require('../models/CompanyModel'); // Assuming this is your CompanyMaster model
 
 // Create a new order
 exports.createOrder = async (req, res) => {

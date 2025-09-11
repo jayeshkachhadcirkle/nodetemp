@@ -105,6 +105,10 @@
                 <button type="submit">Register</button>
             </form>
         </div>
+
+        <div class="status-con">
+            <p class="message"></p>
+        </div>
     </div>
 
     <script>
@@ -113,6 +117,7 @@
         const registerTab = document.querySelector('.register-tab');
         const loginForm = document.querySelector('.login-form');
         const registerForm = document.querySelector('.register-form');
+        const messageTag = document.getElementsByClassName('message')[0];
 
         loginTab.addEventListener('click', () => {
             loginTab.classList.add('active');
@@ -158,7 +163,12 @@
                 },
             })
                 .then(response => response.json())
-                .then(data => console.log(data))
+                .then(data => {
+                    console.log(data)
+                    messageTag.innerText = "Logged in Successfully..."
+                    
+                    window.location.href = '/company'
+                })
                 .catch(error => console.error('Error:', error));
 
         })
@@ -193,7 +203,11 @@
                 },
             })
                 .then(response => response.json())
-                .then(data => console.log(data))
+                .then(data => {
+                    console.log(data)
+                    messageTag.innerText = "Registered Successfully..."
+                    window.location.href = '/company'
+                })
                 .catch(error => console.error('Error:', error));
 
         })

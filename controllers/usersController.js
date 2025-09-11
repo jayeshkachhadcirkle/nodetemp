@@ -11,7 +11,28 @@ const createUser = async (req, res) => {
     try {
         const user = new User({ name, email, phone, password, createdAt: new Date(), updatedAt: new Date() });
         await user.save();
-        res.status(201).json(user); // Return the created user
+
+        const token = jwt.sign(
+            { id: user._id, email: user.email },
+            process.env.JWT_SECRET,
+            { expiresIn: process.env.JWT_EXPIRATION }
+        );
+
+        res.cookie('jwt', token, {
+            httpOnly: true,   // Can't be accessed via JavaScript
+            secure: true,     // Use this in production (only over HTTPS)
+            maxAge: 3600000,  // Expiry time in milliseconds (e.g., 1 hour)
+            sameSite: 'Strict', // Optional: Prevent CSRF attacks
+        });
+
+        res.cookie('user_id', user._id, {
+            httpOnly: false,  // Can be accessed via JavaScript (for use in front-end)
+            secure: true,     // Use this in production (only over HTTPS)
+            maxAge: 3600000,  // Expiry time in milliseconds
+            sameSite: 'Strict', // Optional: Prevent CSRF attacks
+        });
+
+        res.status(201).json({ user, token: token }); // Return the created user
     } catch (error) {
         res.status(400).json({ message: 'Error creating user', error });
     }
@@ -45,6 +66,20 @@ const loginUser = async (req, res) => {
             email: user.email,
             phone: user.phone
         }
+
+        res.cookie('jwt', token, {
+            httpOnly: true,   // Can't be accessed via JavaScript
+            secure: true,     // Use this in production (only over HTTPS)
+            maxAge: 3600000,  // Expiry time in milliseconds (e.g., 1 hour)
+            sameSite: 'Strict', // Optional: Prevent CSRF attacks
+        });
+
+        res.cookie('user_id', user._id, {
+            httpOnly: false,  // Can be accessed via JavaScript (for use in front-end)
+            secure: true,     // Use this in production (only over HTTPS)
+            maxAge: 3600000,  // Expiry time in milliseconds
+            sameSite: 'Strict', // Optional: Prevent CSRF attacks
+        });
 
         res.status(200).json({ message: 'Login successful', token, user: userData });
     } catch (error) {
