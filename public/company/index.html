@@ -29,6 +29,10 @@
             margin-bottom: 20px;
         }
 
+        .update-btn {
+            display: none;
+        }
+
         select,
         input[type="text"],
         input[type="number"],
@@ -123,27 +127,8 @@
 
         <!-- List of companies with Edit/Delete buttons -->
         <div id="companyList">
-            <div class="company-option" data-company-id="company1">
-                <span>Company 1</span>
-                <div class="actions-con">
-                    <button class="edit-btn" onclick="editCompany('company1')">Edit</button>
-                    <button onclick="deleteCompany('company1')">Delete</button>
-                </div>
-            </div>
-            <!-- <div class="company-option" data-company-id="company2">
-                <span>Company 2</span>
-                <div class="actions-con">
-                    <button class="edit-btn" onclick="editCompany('company2')">Edit</button>
-                    <button onclick="deleteCompany('company2')">Delete</button>
-                </div>
-            </div>
-            <div class="company-option" data-company-id="company3">
-                <span>Company 3</span>
-                <div class="actions-con">
-                    <button class="edit-btn" onclick="editCompany('company3')">Edit</button>
-                    <button onclick="deleteCompany('company3')">Delete</button>
-                </div>
-            </div> -->
+
+
         </div>
 
         <!-- Create New Company Button -->
@@ -151,125 +136,18 @@
 
         <!-- Create New Company Form -->
         <div class="form-container" id="createCompanyForm">
-            <h3>Create New Company</h3>
+            <h3>Company Data</h3>
+            <input type="hidden" id="companyid" required>
             <input type="text" id="companyName" placeholder="Company Name" required>
-            <input type="tel" id="companyPhone" placeholder="Phone" required>
+            <input type="number" id="companyPhone" placeholder="Phone" required>
             <input type="number" id="companyPincode" placeholder="Pincode" required>
             <textarea id="companyInfo" placeholder="Company Info" required></textarea>
-            <button onclick="createCompany()">Create</button>
+            <button class="add-btn" onclick="createCompany()">Create</button>
+            <button class="update-btn">Update</button>
         </div>
     </div>
 
-    <script>
-
-
-        // Example of reading the cookies in JavaScript
-        function getCookie(name) {
-            let cookieArr = document.cookie.split(";");
-
-            for (let i = 0; i < cookieArr.length; i++) {
-                let cookie = cookieArr[i].trim();
-                if (cookie.indexOf(name) === 0) {
-                    return cookie.substring(name.length + 1);
-                }
-            }
-
-            return null;
-        }
-
-        // Get JWT and user_id from cookies
-        const jwtToken = getCookie('jwt');
-        const userId = getCookie('user_id');
-
-        console.log(jwtToken);  // Access JWT token
-        console.log(userId);
-        const decodedUserId = decodeURIComponent(userId).slice(3, 27);
-        console.log(decodedUserId);    // Access user ID
-
-        // fetch(`/api/company/byuser/${userId}`)
-        //     .then(res => res.json())
-        //     .then(data => {
-        //         console.log(data);
-        //     })
-
-        fetch(`/api/company/byuser/${decodedUserId}`, {
-            method: 'GET',
-            credentials: 'include'  // Important: This ensures the browser sends cookies (including HttpOnly cookies)
-        })
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error('Error:', error));
-
-        // Display Create Company Form
-        function showCreateForm() {
-            document.getElementById("createCompanyForm").style.display = "block";
-            document.getElementById("createCompanyBtn").style.display = "none";
-        }
-
-        // Create New Company
-        function createCompany() {
-            const companyName = document.getElementById('companyName').value;
-            const companyPhone = document.getElementById('companyPhone').value;
-            const companyPincode = document.getElementById('companyPincode').value;
-            const companyInfo = document.getElementById('companyInfo').value;
-
-            if (companyName && companyPhone && companyPincode && companyInfo) {
-                const newCompany = {
-                    "user_id": "68c28f41465aaffa61ea34be",
-                    "name": companyName,
-                    "phone": companyPhone,
-                    "pincode": companyPincode,
-                    "info": companyInfo
-                };
-
-                alert(`New company "${companyName}" created successfully!`);
-                // Simulate adding company to dropdown list and company list
-                const companySelect = document.getElementById('companySelect');
-                const option = document.createElement('option');
-                option.value = companyName;
-                option.textContent = companyName;
-                companySelect.appendChild(option);
-
-                const companyList = document.getElementById('companyList');
-                const companyDiv = document.createElement('div');
-                companyDiv.classList.add('company-option');
-                companyDiv.setAttribute('data-company-id', companyName);
-                companyDiv.innerHTML = `
-          <span>${companyName}</span>
-          <div>
-            <button class="edit-btn" onclick="editCompany('${companyName}')">Edit</button>
-            <button onclick="deleteCompany('${companyName}')">Delete</button>
-          </div>
-        `;
-                companyList.appendChild(companyDiv);
-
-                // Clear the form and hide it
-                document.getElementById('createCompanyForm').style.display = 'none';
-                document.getElementById('createCompanyBtn').style.display = 'block';
-                document.getElementById('companyName').value = '';
-                document.getElementById('companyPhone').value = '';
-                document.getElementById('companyPincode').value = '';
-                document.getElementById('companyInfo').value = '';
-            } else {
-                alert("Please fill out all fields.");
-            }
-        }
-
-        // Edit Company Functionality (can be extended)
-        function editCompany(companyId) {
-            alert(`Editing company: ${companyId}`);
-            // Implement your edit logic here (e.g., open a form with current details)
-        }
-
-        // Delete Company Functionality
-        function deleteCompany(companyId) {
-            if (confirm(`Are you sure you want to delete ${companyId}?`)) {
-                const companyDiv = document.querySelector(`.company-option[data-company-id='${companyId}']`);
-                companyDiv.remove();
-                alert(`${companyId} has been deleted.`);
-            }
-        }
-    </script>
+    <script src="../company/script.js"></script>
 
 </body>
 
