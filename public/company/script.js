@@ -64,6 +64,14 @@ function showCreateForm() {
     document.getElementById("createCompanyBtn").style.display = "none";
 }
 
+function enterCompany(companyId) {
+    const oneHourFromNow = new Date(Date.now() + 3600000).toUTCString();
+    document.cookie = `comp_id=${companyId}; expires=${oneHourFromNow}; path=/; SameSite=Strict`;
+    console.log("Enter Company");
+    window.location.href = '/dashboard'
+}
+
+
 // Create New Company
 function createCompany() {
 

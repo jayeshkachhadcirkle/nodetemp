@@ -8,6 +8,7 @@ exports.getCompanyByUser = async (req, res) => {
     try {
         const userId = req.params.id;
         const companies = await CompanyModel.find({ 'user_id': userId }).populate('user_id', 'name email');
+        
         res.json(companies);
     } catch (error) {
         res.status(500).json({ message: 'Server error', error });
