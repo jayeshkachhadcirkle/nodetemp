@@ -27,8 +27,9 @@ function getCookie(name) {
 }
 
 // Get JWT and user_id from cookies
-const jwtToken = getCookie('jwt');
-const userId2 = getCookie('user_id');
+let jwtToken = getCookie('jwt');
+let userId2 = getCookie('user_id');
+let compid = getCookie('comp_id');
 
 console.log(jwtToken);  // Access JWT token
 console.log(userId2);
@@ -51,17 +52,18 @@ profileTab.addEventListener('click', () => {
     })
 
 
-    // fetch('/api/company', {
-    //     method: 'POST',
-    //     credentials: 'include',
-    //     headers: {
-    //         "Content-type": "application/json"
-    //     },
-    //     body: JSON.stringify(newCompany)
-    // }).then(res => res.json()).then(data => {
-    //     console.log(data);
-    //     window.location.reload()
-    // })
+    fetch(`/api/company/${compid}`, {
+        credentials: 'include',
+        headers: {
+            "Content-type": "application/json"
+        },
+    }).then(res => res.json()).then(data => {
+        console.log("Comp: ", data);
+        document.getElementById('companyName').value = data.name
+        document.getElementById('companyPhone').value = data.phone
+        document.getElementById('companyPincode').value = data.pincode
+        document.getElementById('companyInfo').value = data.info
+    })
 
 });
 

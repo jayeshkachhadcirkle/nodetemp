@@ -1,0 +1,53 @@
+input,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #6e92c6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #3e5c87;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+
+.company-option button:hover {
+    background-color: #d32f2f;
+}
+
+.company-option .edit-btn {
+    background-color: #4CAF50;
+}
+
+.company-option .edit-btn:hover {
+    background-color: #45a049;
+}
+
+.form-container {
+    /* display: none; */
+    margin-top: 20px;
+}
+
+.actions-con {
+    display: flex;
+    gap: 10px;
+
+}
