@@ -4,12 +4,12 @@ function authenticate(req, res, next) {
     const token = req.cookies.jwt;  // Get the JWT from the cookies
 
     if (!token) {
-        return res.status(401).json({ message: 'No token provided' });
+        return res.redirect('/')
     }
 
     // console.log("Token Got", token);
 
-    // Verify the token
+    // Verify the token 
     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
             return res.status(401).json({ message: 'Failed to authenticate token' });

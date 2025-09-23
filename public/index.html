@@ -162,14 +162,24 @@
                     "Content-Type": "application/json"
                 },
             })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data)
-                    messageTag.innerText = "Logged in Successfully..."
-                    
-                    window.location.href = '/company'
+                .then(response => {
+                    console.log("res status: ", response.status);
+                    if (response.status !== 200) {
+                        messageTag.innerText = "Login Failed..."
+                        throw new Error('Login failed with status: ' + response.status);  // Reject on failure
+                    }
+                    return response.json();  // Return parsed JSON if status is OK
                 })
-                .catch(error => console.error('Error:', error));
+                .then(data => {
+                    console.log("Res Data: ", data);
+                    messageTag.innerText = "Logged in Successfully...";
+                    window.location.href = '/company';
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Optionally, you could also show a more general error message here.
+                });
+
 
         })
 
